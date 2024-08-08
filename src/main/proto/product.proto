@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "dev.dkorez.msathesis.catalog.grpc";
+
+package catalog;
+
+import "google/protobuf/empty.proto";
+
+service ProductServiceGrpc {
+  rpc GetProducts (google.protobuf.Empty) returns (GrpcProductResponse) {}
+  rpc GetProduct (GetProductRequest) returns (ProductResponse) {}
+  rpc SearchProducts (SearchProductRequest) returns (GrpcProductResponse) {}
+}
+
+message SearchProductRequest {
+  string q = 1;
+}
+
+message GetProductRequest {
+  int64 id = 1;
+}
+
+message GrpcProductResponse {
+  repeated ProductResponse products = 1;
+}
+
+message ProductResponse {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  string price = 4;
+  int64 quantity = 5;
+  string categoryName = 6;
+  string brandName = 7;
+  repeated SpecsGrpc specs = 8;
+  repeated string tags = 9;
+}
+
+message SpecsGrpc {
+  string name = 1;
+  string value = 2;
+}
